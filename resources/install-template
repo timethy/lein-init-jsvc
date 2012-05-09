@@ -1,6 +1,7 @@
 #!/bin/bash
 
 NAME=%s
+VERSION=%s
 JAR_INSTALL_DIR=%s
 ARTIFACT_UBERJAR_PATH=%s
 INIT_SCRIPT_INSTALL_DIR=%s
@@ -9,7 +10,7 @@ INSTALLED_INIT_SCRIPT_PATH=%s
 
 #standalone jar
 mkdir -p $JAR_INSTALL_DIR
-cp $ARTIFACT_UBERJAR_PATH $JAR_INSTALL_DIR/"$NAME"-standalone.jar
+cp $ARTIFACT_UBERJAR_PATH $JAR_INSTALL_DIR/"$NAME"-"$VERSION"-standalone.jar
 
 #init script
 mkdir -p $INIT_SCRIPT_INSTALL_DIR

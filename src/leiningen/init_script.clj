@@ -50,9 +50,11 @@
   (let [jar-install-dir (:jar-install-dir opts)
 	init-script-install-dir (:init-script-install-dir opts)
 	name (:name opts)
+        version (:version opts)
 	installed-init-script-path (str init-script-install-dir "/" name "d")]
     (format install-template 
-	    name 
+	    name
+            version
 	    jar-install-dir 
 	    uberjar-path 
 	    init-script-install-dir 
