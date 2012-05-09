@@ -1,9 +1,8 @@
 (ns leiningen.init-script
   (:use [clojure.contrib.pprint]
 	[leiningen.uberjar]
-	[clojure.contrib.duck-streams]
-	[clojure.contrib.string :only (as-str)]
-	))
+	[clojure.contrib.string :only (as-str)])
+  (:require [clojure.contrib.duck-streams :as streams]))
 
 
 ;; Testing options
@@ -33,9 +32,9 @@
 (defn resource-input-stream [res-name]
   (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) res-name))
 
-(def init-script-template (slurp* (resource-input-stream "init-script-template")))
-(def install-template (slurp* (resource-input-stream "install-template")))
-(def clean-template (slurp* (resource-input-stream "clean-template")))
+(def init-script-template (streams/slurp* (resource-input-stream "init-script-template")))
+(def install-template (streams/slurp* (resource-input-stream "install-template")))
+(def clean-template (streams/slurp* (resource-input-stream "clean-template")))
 
 (defn gen-init-script [project opts]
   (let [name (:name project)
@@ -81,9 +80,9 @@
      :redirect-output-to "/dev/null"
      :version version}))
 
-(defn init-script [projects & args]
-  (let [opts (merge (defaults projects) (:lis-opts projects))
-	root (:root projects)
+(defn init-script [project & args]
+  (let [opts (merge (defaults project) (:lis-opts project))
+	root (:root project)
 	name (:name opts)
 	version (:version opts)
 	artifact-dir (:artifact-dir opts)
@@ -93,11 +92,11 @@
 	install-script-path (str artifact-dir "/" "install-" name)
 	clean-script-path (str artifact-dir "/" "clean-" name)]
     (create-output-dir artifact-dir)
-    (uberjar projects)
-    (copy (java.io.File. source-uberjar-path) (java.io.File. artifact-uberjar-path))
-    (spit artifact-init-script-path (gen-init-script projects opts))
-    (spit 
+    (uberjar project)
+    (streams/copy (java.io.File. source-uberjar-path) (java.io.File. artifact-uberjar-path))
+    (streams/spit artifact-init-script-path (gen-init-script project opts))
+    (streams/spit 
      install-script-path 
      (gen-install-script artifact-uberjar-path artifact-init-script-path opts))
-    (spit clean-script-path (gen-clean-script projects opts))
+    (streams/spit clean-script-path (gen-clean-script project opts))
     (println (str "*** Done generating init scripts, see the " artifact-dir " directory"))))
