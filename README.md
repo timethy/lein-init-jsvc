@@ -44,7 +44,7 @@ leiningen-init-script takes several options in the form of:
 	 :properties {:clj-config.env "dev"
 				  :java.library.path "/some/dir"
 				  :init.script.test.prop "prop with spaces"}
-	 :java-opts ["-server"
+	 :jvm-opts ["-server"
 				 "-Xms256M"
 				 "-Xmx512M"
 				 "-XX:MaxPermSize=128M"]}
@@ -60,7 +60,7 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 	             :properties {:clj-config.env "dev"
 				  			  :java.library.path "/some/dir"
 				  			  :init.script.test.prop "prop with spaces"}
-		         :java-opts ["-server"
+		         :jvm-opts ["-server"
 							 "-Xms256M"
 				 			 "-Xmx512M"
 				 			 "-XX:MaxPermSize=128M"]}

@@ -8,7 +8,7 @@
 ;; Testing options
 (def test-opts {:properties {:clj-config.env "dev"
 			     :java.library.path "/some/dir"}
-		:java-opts ["-server" 
+		:jvm-opts ["-server" 
 			    "-Xms1G"
 			    "-Xmx2G"
 			    "-XX:MaxPermSize=128M"]})
@@ -19,12 +19,12 @@
     ""
     (apply str (interpose " " (map #(as-str "\"-D" % "=" (% (:properties opts)) "\"") (keys (:properties opts)))))))
 
-(defn format-java-opts [opts]
-  (let [java-opts (:java-opts opts)]
-    (apply str (interpose " " java-opts))))
+(defn format-jvm-opts [opts]
+  (let [jvm-opts (:jvm-opts opts)]
+    (apply str (interpose " " jvm-opts))))
 
 (defn format-java-string [opts]
-  (str (format-properties opts) " " (format-java-opts opts)))
+  (str (format-properties opts) " " (format-jvm-opts opts)))
 
 (def gen-init-script)
 (def gen-install-script)
