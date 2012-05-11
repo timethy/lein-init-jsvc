@@ -1,4 +1,4 @@
-# leiningen-init-script
+# lein-init-script
 
 A leiningen plugin that generates *NIX init scripts.  Alpha quality, verified working on OSX 10.6 and FC12.
 
