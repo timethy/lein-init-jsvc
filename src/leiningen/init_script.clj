@@ -82,7 +82,9 @@
      :redirect-output-to "/dev/null"
      :version version}))
 
-(defn init-script [project & args]
+(defn init-script
+  "A leiningen plugin that allows you to generate *NIX init scripts."
+  [project]
   (let [opts (merge (defaults project) (:lis-opts project))
 	root (:root project)
 	name (:name opts)
