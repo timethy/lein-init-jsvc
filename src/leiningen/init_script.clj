@@ -69,6 +69,12 @@
 (defn create-output-dir [path]
   (.mkdirs (java.io.File. path)))
 
+(defn create-script [path content]
+  (do (streams/spit path content)
+      (doto
+          (java.io.File. path)
+        (.setExecutable true))))
+
 (defn defaults [project]
   (let [name (:name project)
 	root (:root project)
@@ -97,9 +103,11 @@
     (create-output-dir artifact-dir)
     (uberjar project)
     (streams/copy (java.io.File. source-uberjar-path) (java.io.File. artifact-uberjar-path))
-    (streams/spit artifact-init-script-path (gen-init-script project opts))
-    (streams/spit 
+    (create-script
+     artifact-init-script-path (gen-init-script project opts))
+    (create-script
      install-script-path 
      (gen-install-script artifact-uberjar-path artifact-init-script-path opts))
-    (streams/spit clean-script-path (gen-clean-script project opts))
+    (create-script
+     clean-script-path (gen-clean-script project opts))
     (println (str "*** Done generating init scripts, see the " artifact-dir " directory"))))
