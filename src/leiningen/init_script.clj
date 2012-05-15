@@ -1,6 +1,5 @@
-(ns leiningen.init-script
-  (:use [clojure.contrib.pprint]
-	[leiningen.uberjar]
+ (ns leiningen.init-script
+  (:use [leiningen.uberjar]
 	[clojure.contrib.string :only (as-str)])
   (:require [clojure.contrib.duck-streams :as streams]))
 
