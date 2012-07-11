@@ -1,7 +1,6 @@
- (ns leiningen.init-script
-  (:use [leiningen.uberjar]
-	[clojure.contrib.string :only (as-str)])
-  (:require [clojure.contrib.duck-streams :as streams]))
+(ns leiningen.init-script
+  (:use [leiningen.uberjar])
+  (:require [clojure.java.io :as io]))
 
 
 ;; Testing options
@@ -16,7 +15,9 @@
 (defn format-properties [opts]
   (if (nil? (:properties opts))
     ""
-    (apply str (interpose " " (map #(as-str "\"-D" % "=" (% (:properties opts)) "\"") (keys (:properties opts)))))))
+    (apply str (interpose " " (map #(name "\"-D" % "=" 
+					  (% (:properties opts)) "\"")
+				   (keys (:properties opts)))))))
 
 (defn format-jvm-opts [opts]
   (let [jvm-opts (:jvm-opts opts)]
@@ -31,9 +32,9 @@
 (defn resource-input-stream [res-name]
   (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) res-name))
 
-(def init-script-template (streams/slurp* (resource-input-stream "init-script-template")))
-(def install-template (streams/slurp* (resource-input-stream "install-template")))
-(def clean-template (streams/slurp* (resource-input-stream "clean-template")))
+(def init-script-template (slurp (resource-input-stream "init-script-template")))
+(def install-template (slurp* (resource-input-stream "install-template")))
+(def clean-template (slurp* (resource-input-stream "clean-template")))
 
 (defn gen-init-script [project opts]
   (let [name (:name project)
@@ -70,7 +71,7 @@
   (.mkdirs (java.io.File. path)))
 
 (defn create-script [path content]
-  (do (streams/spit path content)
+  (do (spit path content)
       (doto
           (java.io.File. path)
         (.setExecutable true))))
@@ -102,7 +103,7 @@
 	clean-script-path (str artifact-dir "/" "clean-" name)]
     (create-output-dir artifact-dir)
     (uberjar project)
-    (streams/copy (java.io.File. source-uberjar-path) (java.io.File. artifact-uberjar-path))
+    (io/copy (java.io.File. source-uberjar-path) (java.io.File. artifact-uberjar-path))
     (create-script
      artifact-init-script-path (gen-init-script project opts))
     (create-script
