@@ -33,8 +33,8 @@
   (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) res-name))
 
 (def init-script-template (slurp (resource-input-stream "init-script-template")))
-(def install-template (slurp* (resource-input-stream "install-template")))
-(def clean-template (slurp* (resource-input-stream "clean-template")))
+(def install-template (slurp (resource-input-stream "install-template")))
+(def clean-template (slurp (resource-input-stream "clean-template")))
 
 (defn gen-init-script [project opts]
   (let [name (:name project)
