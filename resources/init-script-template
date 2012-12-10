@@ -12,20 +12,20 @@ mkdir -p $PID_DIR
 
 # returns 0 if PID in file is running, 1 if otherwise
 process_running() {
-    pid=`cat "$PID_FILE" 2>/dev/null`
-    if [ "$pid" = '' ]
-    then
-        return 1 # PID file does not exist
-    else
-        kill_report=`kill -0 $pid 2>&1`
-	if [ "$kill_report" = '' ]
+	pid=`cat "$PID_FILE" 2>/dev/null`
+	if [ "$pid" = '' ]
 	then
-	    return 0
+        	return 1 # PID file does not exist
 	else
-	    echo "Stale PID file exists at $PID_FILE"
-	    return 1
+        	kill_report=`kill -0 $pid 2>&1`
+		if [ "$kill_report" = '' ]
+		then
+	    		return 0
+		else
+			echo "Stale PID file exists at $PID_FILE"
+			return 1
+		fi
 	fi
-    fi
 }
 
 start() {
@@ -52,6 +52,17 @@ stop() {
 	fi
 }
 
+force-stop() {
+	if ! process_running
+	then
+		echo "$NAME is not running."
+	else
+		echo "Forcefully shutting down $NAME"
+		kill -9 `cat $PID_FILE`
+		rm $PID_FILE
+	fi
+}
+
 status() {
 	if process_running
 	then
@@ -69,6 +80,9 @@ case "$1" in
     stop)
 	stop
 	;;
+    force-stop)
+	force-stop
+	;;
     status)
 	status
 	;;
@@ -77,7 +91,7 @@ case "$1" in
 	start
 	;;
     *)
-        echo "Usage: "$NAME"d {start|stop|status|restart}"
+        echo "Usage: "$NAME"d {start|stop|status|restart|force-stop}"
 	exit 1
 	;;
 esac
