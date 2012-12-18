@@ -3,19 +3,10 @@
   (:require [clojure.java.io :as io]))
 
 
-;; Testing options
-(def test-opts {:properties {:clj-config.env "dev"
-			     :java.library.path "/some/dir"}
-		:jvm-opts ["-server" 
-			    "-Xms1G"
-			    "-Xmx2G"
-			    "-XX:MaxPermSize=128M"]})
-
-
 (defn format-properties [opts]
   (if (nil? (:properties opts))
     ""
-    (apply str (interpose " " (map #(name "\"-D" % "=" 
+    (apply str (interpose " " (map #(str "-D" (name %) "=\"" 
 					  (% (:properties opts)) "\"")
 				   (keys (:properties opts)))))))
 
@@ -96,7 +87,7 @@
 	name (:name opts)
 	version (:version opts)
 	artifact-dir (:artifact-dir opts)
-	source-uberjar-path (str root "/" name "-" version "-standalone.jar")
+	source-uberjar-path (str root "/target/" name "-" version "-standalone.jar")
 	artifact-uberjar-path (str artifact-dir "/" name "-" version "-standalone.jar")
 	artifact-init-script-path (str artifact-dir "/" name "d")
 	install-script-path (str artifact-dir "/" "install-" name)
@@ -110,5 +101,4 @@
      install-script-path 
      (gen-install-script artifact-uberjar-path artifact-init-script-path opts))
     (create-script
-     clean-script-path (gen-clean-script project opts))
-    (println (str "*** Done generating init scripts, see the " artifact-dir " directory"))))
+     clean-script-path (gen-clean-script project opts))))
