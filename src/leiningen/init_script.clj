@@ -101,4 +101,5 @@
      install-script-path 
      (gen-install-script artifact-uberjar-path artifact-init-script-path opts))
     (create-script
-     clean-script-path (gen-clean-script project opts))))
+     clean-script-path (gen-clean-script project opts))
+    (println (str "*** Done generating init scripts, see the " artifact-dir " directory"))))
