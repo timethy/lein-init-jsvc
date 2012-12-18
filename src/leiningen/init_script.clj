@@ -7,7 +7,7 @@
   (if (nil? (:properties opts))
     ""
     (apply str (interpose " " (map #(str "-D" (name %) "=\"" 
-					  (% (:properties opts)) "\"")
+                                         (% (:properties opts)) "\"")
 				   (keys (:properties opts)))))))
 
 (defn format-jvm-opts [opts]
@@ -16,9 +16,6 @@
 
 (defn format-java-string [opts]
   (str (format-properties opts) " " (format-jvm-opts opts)))
-
-(def gen-init-script)
-(def gen-install-script)
 
 (defn resource-input-stream [res-name]
   (.getResourceAsStream (.getContextClassLoader (Thread/currentThread)) res-name))
@@ -35,7 +32,13 @@
 	jar-install-dir (:jar-install-dir opts)
 	java-flags (format-java-string opts)
 	redirect-output-to (:redirect-output-to opts)]
-    (format init-script-template name version pid-dir jar-install-dir java-flags redirect-output-to)))
+    (format init-script-template
+            name
+            version
+            pid-dir
+            jar-install-dir
+            java-flags
+            redirect-output-to)))
 
 (defn gen-install-script [uberjar-path init-script-path opts]
   (let [jar-install-dir (:jar-install-dir opts)
