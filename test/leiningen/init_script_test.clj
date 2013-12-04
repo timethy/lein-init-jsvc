@@ -3,8 +3,9 @@
         leiningen.init-script))
 ;; Testing options
 (def test-opts {:properties {:clj-config.env "dev"
-			     :java.library.path "/some/dir"}
-		:jvm-opts ["-server" 
+                             :java.library.path "/some/dir"}
+                :cli-args ["-p" "8081"]
+                :jvm-opts ["-server"
                            "-Xms1G"
                            "-Xmx2G"
                            "-XX:MaxPermSize=128M"]})
@@ -19,4 +20,8 @@
   (testing "format-java-string"
     (is (=
          (format-java-string test-opts)
-         "-Djava.library.path=\"/some/dir\" -Dclj-config.env=\"dev\" -server -Xms1G -Xmx2G -XX:MaxPermSize=128M"))))
+         "-Djava.library.path=\"/some/dir\" -Dclj-config.env=\"dev\" -server -Xms1G -Xmx2G -XX:MaxPermSize=128M")))
+  (testing "format-cli-args"
+    (is (=
+         (format-opts test-opts :cli-args)
+         "-p 8081"))))
