@@ -31,7 +31,7 @@
         pid-dir (:pid-dir opts)
         jar-install-dir (:jar-install-dir opts)
         java-flags (format-java-string opts)
-        cli-args (format-opts opts :cli-args)
+        jar-args (format-opts opts :jar-args)
         redirect-output-to (:redirect-output-to opts)]
     (format init-script-template
             name
@@ -39,7 +39,7 @@
             pid-dir
             jar-install-dir
             java-flags
-            cli-args
+            jar-args
             redirect-output-to)))
 
 (defn gen-install-script [uberjar-path init-script-path opts]

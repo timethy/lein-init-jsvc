@@ -4,7 +4,7 @@
 ;; Testing options
 (def test-opts {:properties {:clj-config.env "dev"
                              :java.library.path "/some/dir"}
-                :cli-args ["-p" "8081"]
+                :jar-args ["-p" "8081"]
                 :jvm-opts ["-server"
                            "-Xms1G"
                            "-Xmx2G"
@@ -21,7 +21,7 @@
     (is (=
          (format-java-string test-opts)
          "-Djava.library.path=\"/some/dir\" -Dclj-config.env=\"dev\" -server -Xms1G -Xmx2G -XX:MaxPermSize=128M")))
-  (testing "format-cli-args"
+  (testing "format-jar-args"
     (is (=
-         (format-opts test-opts :cli-args)
+         (format-opts test-opts :jar-args)
          "-p 8081"))))

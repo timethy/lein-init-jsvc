@@ -46,7 +46,7 @@ lein-init-script takes several options in the form of:
 	 :properties {:clj-config.env "dev"
 				  :java.library.path "/some/dir"
 				  :init.script.test.prop "prop with spaces"}
-     :cli-args ["-p" "8080"]
+     :jar-args ["-p" "8080"]
 	 :jvm-opts ["-server"
 				 "-Xms256M"
 				 "-Xmx512M"
