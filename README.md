@@ -8,16 +8,16 @@ In a nutshell, LIS generates the following artifacts which can be found in your 
 <br />
 
 * <your-project-name>d script
-	
+
 	Paired down from the Fedora Core init script template, injected with values from your lein project.clj.
 <br />
 
 * install-<your-project-name> script
-	
+
 	Creates (but does not overwrite) the :pid-dir, :install-dir, and :init-script-dir directories.  To override the defaults see the Configuration section below.
 <br />
 
-* clean-<your-project-name> script 
+* clean-<your-project-name> script
 
 	Removes the init script, and uberjar from their respective install paths.  Does not remove any created directories.
 <br />
@@ -46,6 +46,7 @@ lein-init-script takes several options in the form of:
 	 :properties {:clj-config.env "dev"
 				  :java.library.path "/some/dir"
 				  :init.script.test.prop "prop with spaces"}
+     :jar-args ["-p" "8080"]
 	 :jvm-opts ["-server"
 				 "-Xms256M"
 				 "-Xmx512M"
@@ -67,7 +68,7 @@ which are passed to the the init-script task by adding a :lis-opts entry to the 
 				 			 "-Xmx512M"
 				 			 "-XX:MaxPermSize=128M"]}
 	  :main main)
-	
+
 
 
 ## Usage
@@ -81,5 +82,3 @@ No Windows support at this time, if you'd like to see support for windows servic
 ## License
 
 [Eclipse Public License v1.0](http://www.eclipse.org/legal/epl-v10.html)
-
-
