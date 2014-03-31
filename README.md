@@ -14,7 +14,7 @@ In a nutshell, LIS generates the following artifacts which can be found in your 
 
 * install-<your-project-name> script
 
-	Creates (but does not overwrite) the :pid-dir, :install-dir, and :init-script-dir directories.  To override the defaults see the Configuration section below.
+	Creates (but does not overwrite) the :pid-dir, :install-dir, and :init-script-install-dir directories.  To override the defaults see the Configuration section below.
 <br />
 
 * clean-<your-project-name> script
@@ -41,7 +41,7 @@ lein-init-script takes several options in the form of:
 	{:name "override-project-name"
      :pid-dir "/var/run"
      :install-dir "/usr/local/my-project-name"
-     :init-script-dir "/etc/init.d"
+     :init-script-install-dir "/etc/init.d"
 	 :redirect-output-to "/log/file"
 	 :properties {:clj-config.env "dev"
 				  :java.library.path "/some/dir"
