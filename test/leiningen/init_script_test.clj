@@ -1,27 +1,3 @@
 (ns leiningen.init-script-test
   (:use clojure.test
-        leiningen.init-script))
-;; Testing options
-(def test-opts {:properties {:clj-config.env "dev"
-                             :java.library.path "/some/dir"}
-                :jar-args ["-p" "8081"]
-                :jvm-opts ["-server"
-                           "-Xms1G"
-                           "-Xmx2G"
-                           "-XX:MaxPermSize=128M"]})
-
-
-
-(deftest init-script-tests
-  (testing "format-properties"
-    (is (=
-         (format-properties {:properties {:foo "bar"}})
-         "-Dfoo=\"bar\"")))
-  (testing "format-java-string"
-    (is (=
-         (format-java-string test-opts)
-         "-Djava.library.path=\"/some/dir\" -Dclj-config.env=\"dev\" -server -Xms1G -Xmx2G -XX:MaxPermSize=128M")))
-  (testing "format-jar-args"
-    (is (=
-         (format-opts test-opts :jar-args)
-         "-p 8081"))))
+        leiningen.init-jsvc))

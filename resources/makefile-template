@@ -1,0 +1,27 @@
+NAME = "%s"
+VERSION = "%s"
+
+# paths
+LIB_PREFIX = /usr/share/java
+INIT_PREFIX = /etc/init.d
+CONFIG_PREFIX = /etc
+
+install: uninstall
+	@echo installing init script to ${DESTDIR}${INIT_PREFIX}/
+	@cp -f etc/init.d/${NAME} ${DESTDIR}${INIT_PREFIX}/
+	@chmod 755 ${DESTDIR}${INIT_PREFIX}/${NAME}
+	@echo installing jar to ${DESTDIR}${LIB_PREFIX}/${NAME}
+	@mkdir -p ${DESTDIR}${LIB_PREFIX}/${NAME}
+	@cp lib/* ${DESTDIR}${LIB_PREFIX}/${NAME}
+	@chmod 644 ${DESTDIR}${LIB_PREFIX}/${NAME}/*
+	@echo installing default config file to ${DESTDIR}${CONFIG_PREFIX}/aof/
+	@mkdir -p ${DESTDIR}${CONFIG_PREFIX}/aof
+	@cp -u etc/aof/${NAME}.conf ${DESTDIR}${CONFIG_PREFIX}/aof
+	@chmod 644 ${DESTDIR}${CONFIG_PREFIX}/aof/${NAME}.conf
+
+uninstall:
+	@echo removing init script from ${DESTDIR}${INIT_PREFIX}/
+	@rm -f ${DESTDIR}${INIT_PREFIX}/${NAME}
+	@echo removing jar files from ${DESTDIR}${LIB_PREFIX}/${NAME}
+	@rm -rf ${DESTDIR}${LIB_PREFIX}/${NAME}
+	@echo NOT removing config file in ${DESTDIR}${CONFIG_PREFIX}/aof 
