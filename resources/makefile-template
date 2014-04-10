@@ -16,8 +16,8 @@ install: uninstall
 	@chmod 644 ${DESTDIR}${LIB_PREFIX}/${NAME}/*
 	@echo installing default config file to ${DESTDIR}${CONFIG_PREFIX}/aof/
 	@mkdir -p ${DESTDIR}${CONFIG_PREFIX}/aof
-	@cp -u etc/aof/${NAME}.conf ${DESTDIR}${CONFIG_PREFIX}/aof
-	@chmod 644 ${DESTDIR}${CONFIG_PREFIX}/aof/${NAME}.conf
+	@test -f etc/aof/${NAME}.conf && cp -u etc/aof/${NAME}.conf ${DESTDIR}${CONFIG_PREFIX}/aof || echo "no config, not copying.."
+	@test -f etc/aof/${NAME}.conf && chmod 644 ${DESTDIR}${CONFIG_PREFIX}/aof/${NAME}.conf || true
 
 uninstall:
 	@echo removing init script from ${DESTDIR}${INIT_PREFIX}/
