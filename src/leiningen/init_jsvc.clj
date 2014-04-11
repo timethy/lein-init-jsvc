@@ -13,7 +13,7 @@
   [(str (project :name) ".conf")
    (if (.exists (io/file "default.conf"))
      (slurp (io/reader "default.conf"))
-     "")])
+     nil)])
 
 (defn gen-init-d-script [project]
   (let [{:keys [name version description main]} project]
@@ -35,10 +35,11 @@
   (.mkdirs (java.io.File. path)))
 
 (defn create-script [dir name content]
-  (let [path (str dir "/" name)]
-    (spit path content)
-    (doto (java.io.File. path)
-      (.setExecutable true))))
+  (if content
+    (let [path (str dir "/" name)]
+      (spit path content)
+      (doto (java.io.File. path)
+        (.setExecutable true)))))
 
 (defn init-jsvc
   "A leiningen plugin that generates a Makefile for make install/uninstall and a
