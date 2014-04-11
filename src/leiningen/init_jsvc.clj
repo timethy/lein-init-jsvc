@@ -11,7 +11,9 @@
 
 (defn config-file [project]
   [(str (project :name) ".conf")
-   (slurp (io/reader "default.conf"))])
+   (if (.exists (io/file "default.conf"))
+     (slurp (io/reader "default.conf"))
+     "")])
 
 (defn gen-init-d-script [project]
   (let [{:keys [name version description main]} project]
@@ -46,6 +48,7 @@
         etc-aof-dir (str artifact-dir "/etc/aof")
         etc-init-d-dir (str artifact-dir "/etc/init.d")]
     (create-output-dir artifact-dir)
+    (create-output-dir etc-aof-dir)
     (create-output-dir etc-init-d-dir)
     (apply create-script artifact-dir (gen-makefile project))
     (apply create-script etc-aof-dir (config-file project))
