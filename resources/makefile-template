@@ -2,7 +2,7 @@ NAME = "%s"
 VERSION = "%s"
 
 # paths
-LIB_PREFIX = /usr/share/java
+LIB_PREFIX = /srv
 INIT_PREFIX = /etc/init.d
 CONFIG_PREFIX = /etc
 
@@ -16,8 +16,7 @@ install: uninstall
 	@chmod 644 ${DESTDIR}${LIB_PREFIX}/${NAME}/*
 	@echo installing default config file to ${DESTDIR}${CONFIG_PREFIX}/aof/
 	@mkdir -p ${DESTDIR}${CONFIG_PREFIX}/aof
-	@test -f etc/aof/${NAME}.conf && cp -u etc/aof/${NAME}.conf ${DESTDIR}${CONFIG_PREFIX}/aof || echo "no config, not copying.."
-	@test -f etc/aof/${NAME}.conf && chmod 644 ${DESTDIR}${CONFIG_PREFIX}/aof/${NAME}.conf || true
+	@(test -f etc/aof/${NAME}.conf && test ! -f ${DESTDIR}${CONFIG_PREFIX}/aof) && cp -u etc/aof/${NAME}.conf ${DESTDIR}${CONFIG_PREFIX}/aof && chmod 644 ${DESTDIR}${CONFIG_PREFIX}/aof/${NAME}.conf || echo "no config, not copying.."
 
 uninstall:
 	@echo removing init script from ${DESTDIR}${INIT_PREFIX}/

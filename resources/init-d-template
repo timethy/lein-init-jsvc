@@ -22,7 +22,7 @@ DESC="%s"
 EXEC="/usr/bin/jsvc"
 
 # The path to the folder containing aof-extract-service.jar
-FILE_PATH="/usr/share/java/$NAME"
+FILE_PATH="/srv/$NAME"
 VAR_PATH="/var"
 
 # Our classpath including our jar files
